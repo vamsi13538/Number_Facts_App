@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts | Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+    <style>
+        body{
+            background: url('https://images.pexels.com/photos/259915/pexels-photo-259915.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+        }
+        #fact{
+            display: none;
+        }
+        #yearfact{
+            display: none;
+        }
+        #namePlate{
+            background-color: #EDEDED;
+        }
+        h1{
+            margin-bottom: 20px;
+            font-family: 'Lobster', cursive;
+
+        }
+        .profile{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid black;
+            float: right;
+        }
+        #contact{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 5px 20px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .links{
+            word-spacing: 10px;
+        }
+        .mail{
+            color: red;
+        }
+        .insta{
+            color: #bc2a8d;
+        }
+        .twitter{
+            color: skyblue;
+        }
+        #section1{
+            color: black;
+            width: 100%;
+            background-color: darkgray;
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            padding: 10px 0px;
+        }
+        
+    </style>
+</head>
+<body class="bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card mt-5 p-3" id="namePlate">
+                    <h1>Facts App <span><img class="profile" src="https://i.postimg.cc/sXsKrg8K/cover-image.jpg" alt="@mecheon"></span></h1>
+                    <input type="number" id="numberInput" class="form-control" placeholder="Enter Any Number To See Fact..">
+                    <div id="fact">
+                        <h5 class="mt-2">Number Fact</h5>
+                        <p id="factText"></p>
+                    </div>
+                    <input type="number" id="yearInput" class="form-control mt-3" placeholder="Enter Any Year To See Fact..">
+                    <div id="yearfact">
+                        <h5 class="mt-2">Year Fact</h5>
+                        <p id="yearfactText"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section id="section1">
+        <h4>CopyRight &copy; 2022 | @Mecheon |
+            <span class="links">
+                <a class="mail" href="mailto:m.vamsim23@gmail.com" target="_blank"><i class="fa-regular fa-envelope"></i></a>
+                <a class="insta" href="https://www.instagram.com/vamsi_13_5_3_8/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a class="linkedin" href="https://www.linkedin.com/in/vamsi13538" target="_blank"><i class="fa-brands fa-linkedin"></i></a> 
+                <a class="twitter" href="https://twitter.com/manepallivamsi2" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+            </span>
+        </h4>
+    </section>
+
+    <script>
+        window.sr = ScrollReveal();
+        sr.reveal('#section1', {
+            duration: 2000,
+            origin: 'bottom',
+            delay: 2000,
+            disatnce: '100px'
+        });
+        sr.reveal('#namePlate', {
+            duration: 2000,
+            origin: 'top',
+            disatnce: '300px'
+        });
+        
+        const fact = document.getElementById('fact');
+        const factText = document.getElementById('factText');
+        const numberInput = document.getElementById('numberInput');
+
+        const yearfact = document.getElementById('yearfact');
+        const yearfactText = document.getElementById('yearfactText');
+        const yearInput = document.getElementById('yearInput');
+
+        numberInput.addEventListener('input', getFactAjax);
+        yearInput.addEventListener('input', getYearFactAjax);
+
+        function getYearFactAjax(){
+            let year = yearInput.value;
+            
+            let xar = new XMLHttpRequest();
+            xar.open('GET','http://numbersapi.com/'+year+'/year');
+            xar.onload = function(){
+                if(this.status == 200 && year != ''){
+                    yearfact.style.display = 'block';
+                    yearfactText.innerHTML = `<i>${this.responseText}</i>`;
+                }
+                else
+                {
+                    console.log('Invalid Year');
+                }
+            }
+
+            xar.send();
+        }
+
+        function getFactAjax(){
+            let number = numberInput.value;
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://numbersapi.com/'+number);
+
+            xhr.onload = function(){
+                if(this.status == 200 && number != ''){
+                    fact.style.display = 'block';
+                    factText.innerHTML = `<i>${this.responseText}</i>`;
+                }
+                else{
+                    console.log("Invalid Number");
+                }
+            }
+            
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
